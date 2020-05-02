@@ -52,23 +52,23 @@ export default class SignUp extends Component {
         console.log(this.state)
         if((valid(this.state.firstName,'firstName') && valid(this.state.lastName,"lastName")) && (valid(this.state.email,"email") && valid(this.state.password,"password") && (this.state.password === this.state.Cpassword))) {
             // if all information are valid
-        await auth.createUser(this.state.email, this.state.password)
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-            auth.logIn(this.state.email, this.state.password)
-            firestore.collection("user").add({
-                name: this.state.firstName + " " + this.state.lastName,
-                email: this.state.email
+            await auth.createUser(this.state.email, this.state.password)
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+                auth.logIn(this.state.email, this.state.password)
+                firestore.collection("user").add({
+                    name: this.state.firstName + " " + this.state.lastName,
+                    email: this.state.email
+                })
             })
-        })
-        const user = firebase.auth().currentUser
-        console.log(user)
-        if(user){
-            this.props.history.push('/');
-        }else{
-            this.props.history.push('/login')
-        }
+            const user = firebase.auth().currentUser
+            console.log(user)
+            if(user){
+                this.props.history.push('/');
+            }else{
+                this.props.history.push('/login')
+            }
 
-        }else {
+        } else {
             this.setState({
                 error : true
             })

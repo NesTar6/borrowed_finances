@@ -1,10 +1,11 @@
+require('dotenv').config();
 const path = require("path");
 const bodyParser = require("body-parser");
 const express = require("express");
 const plaid = require("plaid");
 const volleyball = require("volleyball");
 const cors = require("cors");
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 require("../secret");
 app.use(bodyParser.json());
@@ -22,6 +23,7 @@ const client = new plaid.Client(
 
 app.use(volleyball);
 app.use(cors());
+
 let file = process.env.NODE_ENV === "production" ? "build" : "public";
 app.use(express.static(path.join(__dirname, "..", file)));
 

@@ -5,9 +5,12 @@ import firebase from 'firebase'
 import {getPlaid} from '../../Store/plaidContainer'
 import{connect} from 'react-redux'
 import { Loader } from 'semantic-ui-react'
-const path = process.env.NODE_ENV==="production"?"": "http://localhost:8000";
+
+// Port must match in .env
+const path = process.env.NODE_ENV==="production"?"": "http://localhost:3001";
+
 const firestore = firebase.firestore();
-const settings = {/* your settings... */ timestampsInSnapshots: true};
+const settings = {};
 firestore.settings(settings);
 
 
