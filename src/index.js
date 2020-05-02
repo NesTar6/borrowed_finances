@@ -16,7 +16,14 @@ const options = {
   transition: 'scale'
 }
 
-ReactDOM.render(<AuthProvider auth={firebase.auth()}><AlertProvider template={AlertTemplate} {...options}><App /></AlertProvider></AuthProvider>, document.getElementById('root'));
+ReactDOM.render(
+	<AuthProvider auth={firebase.auth()}>
+		<AlertProvider template={AlertTemplate} {...options}>
+			<App />
+		</AlertProvider>
+	</AuthProvider>, 
+	document.getElementById('root')
+);
 registerServiceWorker();
 
 

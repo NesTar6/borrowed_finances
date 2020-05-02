@@ -1,13 +1,14 @@
-# What we do
+# Setup
 
-Tired of manually doing your finances? Use Fin-Track. We integrate with 12 different banks and let you track/manage your finances with cool graphs, so that you can be good with your money effortlessly!
+1. Create new [Firebase project](https://console.firebase.google.com/) (or have an existing one)
+2. Add app to your Firebase project (if not already)
+3. Update the `FIREBASE_*` environment variables in .env
+4. Run `firebase init` in project root
 
-# How to use it
+# Run Locally
 
-Since this is still in beta mode, please use our fake user credentials, when adding an account.
-Username: user_good
-Password: pass_good
+Run `firebase`
 
-# Technology used
+# Deploy
 
-Technology used: React, Redux, Cloud Firestore, Express, Plaid API, Agile(Waffle)
+Run `firebase deploy`

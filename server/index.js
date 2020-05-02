@@ -14,10 +14,10 @@ let ACCESS_TOKEN = null;
 let PUBLIC_TOKEN = null;
 
 const client = new plaid.Client(
-  process.env.CLIENT_ID,
-  process.env.SECRET_KEY,
-  process.env.PUBLIC_KEY,
-  plaid.environments.sandbox
+  process.env.PLAID_CLIENT_ID,
+  process.env.PLAID_SECRET_KEY,
+  process.env.PLAID_PUBLIC_KEY,
+  process.env.NODE_ENV === "production" ? plaid.environments.production : plaid.environments.sandbox
 );
 
 app.use(volleyball);
@@ -61,6 +61,8 @@ app.post("/auth/get", (req, res, next) => {
 app.post("/transaction/get", (req, res, next) => {
   client.getTransactions(
     ACCESS_TOKEN,
+
+    // TODO Update to use live dates
     "2019-01-01",
     "2019-09-15",
     {

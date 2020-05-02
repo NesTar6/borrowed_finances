@@ -32,7 +32,7 @@ function exist(val) {
 describe("Secret keys work", () => {
   describe("Client_ID exist", () => {
     it("Client ID is not undefined", () => {
-      const clientIdWorks = exist(process.env.CLIENT_ID);
+      const clientIdWorks = exist(process.env.PLAID_CLIENT_ID);
       expect(clientIdWorks).to.be.deep.equal(true);
     });
   });

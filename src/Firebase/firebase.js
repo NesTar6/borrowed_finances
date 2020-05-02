@@ -2,12 +2,14 @@ import * as firebase from 'firebase'
 require("firebase/firestore");
 
 var config = {
-  apiKey: "AIzaSyAAkUHs_2r1YOLpF0nA8GAX3cVUmrWNGws",
-  authDomain: "fintrack-7430a.firebaseapp.com",
-  databaseURL: "https://fintrack-7430a.firebaseio.com",
-  projectId: "fintrack-7430a",
-  storageBucket: "fintrack-7430a.appspot.com",
-  messagingSenderId: "358003201569"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MSG_SENDER_ID
+  appId: process.env.FIREBASE_APP_ID
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
 
 firebase.initializeApp(config)
