@@ -98,12 +98,7 @@ export const getAllGoal = () => async dispatch => {
     try {
         firebase.auth().onAuthStateChanged(async user => {
             if (user) {
-                // console.log('USER', user)
-                const userEmail = user.email
-                const goals = await db.collection('user').doc(user.uid).get().then(snapshot => {
-                    snapshot.docs.map(doc => dispatch(gotAllGoal(doc.data().Goals))
-                    )
-                })
+                await db.collection('user').doc(user.uid).get().then(doc => dispatch(gotAllGoal(doc.data().Goals)))
             }
         })
     } catch (error) {
