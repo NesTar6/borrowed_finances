@@ -29,6 +29,7 @@ class Transactions extends Component {
         obj.account = this.getSingleBalance(
           this.props.plaidInfo.transaction[i].account_id
         );
+        obj.date = this.props.plaidInfo.transaction[i].date;
         finalArr.push(obj);
       }
       return finalArr;
@@ -58,6 +59,12 @@ class Transactions extends Component {
         {
           label: "Amount",
           field: "amount",
+          sort: "asc",
+          width: 200
+        },
+        {
+          label: "Date",
+          field: "date",
           sort: "asc",
           width: 200
         },
