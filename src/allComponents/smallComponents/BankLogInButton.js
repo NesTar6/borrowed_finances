@@ -79,9 +79,9 @@ class BankLogInButton extends Component {
       <div className='center' >
       <PlaidLink
         className='center'
-        clientName="Fintrack"
+        clientName="Warblestein Finances"
         onMessage={this.onMessage}
-        publicKey="faa176d98c3dd1ab8813a01cc0bc8f"
+        publicKey="0cf24d0681bbd05f7b23a59d2afb39"
         env="sandbox"
         product={["auth", "transactions"]}
         onLoad={this.onLoad}
