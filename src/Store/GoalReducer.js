@@ -21,12 +21,6 @@ export const addAGoal = (goal) => async dispatch => {
     try {
         firebase.auth().onAuthStateChanged(async user => {
             if (user) {
-                const userEmail = user.email
-                const userRef = await db
-                    .collection("user")
-                    .where("email", "==", userEmail.toString())
-                    .get();
-                const docRefId = await userRef.docs[0].id;
                 const addingGoals = await db.collection('user').doc(user.uid).update({
                     Goals: firebase.firestore.FieldValue.arrayUnion(goal)
                 })
@@ -43,17 +37,12 @@ export const addAGoal = (goal) => async dispatch => {
 export const getSingleGoal = (goalID) => async dispatch => {
     try {
         const user = firebase.auth().currentUser
-        const userEmail = user.email;
-        const userRef = await db
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await db
-        .collection("user")
-        .doc("" + docRefId + "")
-        .get()
-        .then(user => user.data());
+            .collection("user")
+            .doc(user.uid)
+            .get()
+            .then(user => user.data());
+
         var goal = dataAPI.Goals[goalID]
         dispatch(getGoal(goal))
     } catch (error) {
@@ -64,17 +53,11 @@ export const getSingleGoal = (goalID) => async dispatch => {
 export const editSingleGoal = (edittedGoal, goalId) => async dispatch => {
     try {
         const user = firebase.auth().currentUser
-        const userEmail = user.email;
-        const userRef = await db
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await db
-        .collection("user")
-        .doc("" + docRefId + "")
-        .get()
-        .then(user => user.data())
+            .collection("user")
+            .doc(user.uid)
+            .get()
+            .then(user => user.data())
         let goals = dataAPI.Goals
         let newGoals = []
         for(var i = 0; i < goals.length; i++) {        
@@ -109,17 +92,11 @@ export const destroyingGoal = (dataId) => async dispatch => {
     try {
         
         const user = firebase.auth().currentUser
-        const userEmail = user.email;
-        const userRef = await db
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await db
-        .collection("user")
-        .doc("" + docRefId + "")
-        .get()
-        .then(user => user.data());
+            .collection("user")
+            .doc(user.uid)
+            .get()
+            .then(user => user.data());
         var goals = dataAPI.Goals
         var newGoals = goals.filter((goal, index) => {
             return (index != dataId)

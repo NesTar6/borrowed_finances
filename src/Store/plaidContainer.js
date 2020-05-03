@@ -56,15 +56,9 @@ export const getDataFromFireStore = () => async dispatch => {
     const user = firebase.auth().currentUser;
     if (user) {
       // User is signed in.
-      const userEmail = user.email;
-      const userRef = await firestore
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-      const docRefId = await userRef.docs[0].id;
       const dataAPI = await firestore
         .collection("user")
-        .doc("" + docRefId + "")
+        .doc(user.uid)
         .get()
         .then(user => user.data());
       const currentDate = new Date();
@@ -101,15 +95,10 @@ export const getDataFromFireStore = () => async dispatch => {
 export const updateBudget = newBudget => async dispatch => {
   try {
     dispatch(startLoading());
-    const userEmail = firebase.auth().currentUser.email;
-    const userRef = await firestore
-      .collection("user")
-      .where("email", "==", userEmail.toString())
-      .get();
-    const docRefId = userRef.docs[0].id;
+    const user = firebase.auth().currentUser;
     await firestore
       .collection("user")
-      .doc("" + docRefId + "")
+      .doc(user.uid)
       .update({ budget: newBudget })
       .then(() => {
         console.log("updated!");
@@ -120,7 +109,7 @@ export const updateBudget = newBudget => async dispatch => {
 
     const dataAPI = await firestore
       .collection("user")
-      .doc("" + docRefId + "")
+      .doc(user.uid)
       .get()
       .then(user => user.data());
     console.log("data", dataAPI);
@@ -152,13 +141,8 @@ export const updateBudget = newBudget => async dispatch => {
 
 export const removeDataFromFireStore = () => {
   return async dispatch => {
-    const userEmail = firebase.auth().currentUser.email;
-    const userRef = await firestore
-      .collection("user")
-      .where("email", "==", userEmail.toString())
-      .get();
-    const docRefId = await userRef.docs[0].id;
-    const dataAPI = await firestore.collection("user").doc("" + docRefId + "");
+    const user = firebase.auth().currentUser;
+    const dataAPI = await firestore.collection("user").doc(user.uid);
     const deletePLaid = await dataAPI
       .update({
         auth: firebase.firestore.FieldValue.delete(),
@@ -180,15 +164,10 @@ export const getTransactionsByCurrentMonth = () => async dispatch => {
   firebase.auth().onAuthStateChanged(async user => {
     if (user) {
       // User is signed in.
-      const userEmail = firebase.auth().currentUser.email;
-      const userRef = await firestore
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-      const docRefId = await userRef.docs[0].id;
+      const user = firebase.auth().currentUser;
       const dataAPI = await firestore
         .collection("user")
-        .doc("" + docRefId + "")
+        .doc(user.uid)
         .get()
         .then(user => user.data());
       const currentDate = new Date();

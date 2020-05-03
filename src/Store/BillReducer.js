@@ -30,14 +30,9 @@ export const payBill = (billID) => async dispatch => {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         const userEmail = user.email;
-        const userRef = await firestore
-          .collection("user")
-          .where("email", "==", userEmail.toString())
-          .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
           .collection("user")
-          .doc("" + docRefId + "")
+          .doc(user.uid)
           .get()
           .then(user => user.data());
         const allBills = dataAPI.Bills;
@@ -54,7 +49,7 @@ export const payBill = (billID) => async dispatch => {
           PaidBills.push(paid);
           await firestore
             .collection("user")
-            .doc(docRefId.toString())
+            .doc(user.uid)
             .update({
               PaidBills: paid,
               Bills: newBills,
@@ -66,7 +61,7 @@ export const payBill = (billID) => async dispatch => {
           PaidBills.push(paid);
           await firestore
             .collection("user")
-            .doc(docRefId.toString())
+            .doc(user.uid)
             .update({
               PaidBills: PaidBills,
               Bills: newBills,
@@ -86,15 +81,9 @@ export const deleteBill = idx => async dispatch => {
   try {
     firebase.auth().onAuthStateChanged(async user => {
       if(user) {
-        const userEmail = user.email;
-        const userRef = await firestore
-          .collection("user")
-          .where("email", "==", userEmail.toString())
-          .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
           .collection("user")
-          .doc("" + docRefId + "")
+          .doc(user.uid)
           .get()
           .then(user => user.data());
         const paidBills = dataAPI.PaidBills
@@ -105,7 +94,7 @@ export const deleteBill = idx => async dispatch => {
         })
         await firestore
             .collection("user")
-            .doc(docRefId.toString())
+            .doc(user.uid)
             .update({
               PaidBills: newPaidBills,
             });
@@ -121,15 +110,9 @@ export const getAllBill = () => async dispatch => {
   try {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        const userEmail = user.email;
-        const userRef = await firestore
-          .collection("user")
-          .where("email", "==", userEmail.toString())
-          .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
           .collection("user")
-          .doc("" + docRefId + "")
+          .doc(user.uid)
           .get()
           .then(user => user.data());
         const allBills = dataAPI.Bills;
@@ -146,15 +129,9 @@ export const addBill = newBill => async dispatch => {
   try {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        const userEmail = user.email;
-        const userRef = await firestore
-          .collection("user")
-          .where("email", "==", userEmail.toString())
-          .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
           .collection("user")
-          .doc("" + docRefId + "")
+          .doc(user.uid)
           .get()
           .then(user => user.data());
         if (!dataAPI.Bills) {
@@ -162,7 +139,7 @@ export const addBill = newBill => async dispatch => {
           newBills.push(newBill);
           await firestore
             .collection("user")
-            .doc(docRefId.toString())
+            .doc(user.uid)
             .update({
               Bills: newBills
             });
@@ -171,7 +148,7 @@ export const addBill = newBill => async dispatch => {
           newBills.push(newBill);
           await firestore
             .collection("user")
-            .doc(docRefId.toString())
+            .doc(user.uid)
             .update({
               Bills: newBills
             });
@@ -187,17 +164,12 @@ export const addBill = newBill => async dispatch => {
 export const getSingleBill = (billID) => async dispatch => {
     try {
         const user = firebase.auth().currentUser
-        const userEmail = user.email;
-        const userRef = await firestore
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
         .collection("user")
-        .doc(docRefId.toString())
+        .doc(user.uid)
         .get()
         .then(user => user.data());
+        
         var bill = dataAPI.Bills[billID]
         dispatch(got_single_bill(bill))
     } catch (error) {
@@ -208,17 +180,12 @@ export const getSingleBill = (billID) => async dispatch => {
 export const editSingleBill = (updatedBill, billID) => async dispatch => {
     try {
         const user = firebase.auth().currentUser
-        const userEmail = user.email;
-        const userRef = await firestore
-        .collection("user")
-        .where("email", "==", userEmail.toString())
-        .get();
-        const docRefId = await userRef.docs[0].id;
         const dataAPI = await firestore
         .collection("user")
-        .doc("" + docRefId + "")
+        .doc(user.uid)
         .get()
-        .then(user => user.data())
+        .then(user => user.data());
+
         let bills = dataAPI.Bills
         let newBills = []
         for(var i = 0; i < bills.length; i++) {        

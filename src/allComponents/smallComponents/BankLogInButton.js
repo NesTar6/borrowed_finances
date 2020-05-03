@@ -44,24 +44,18 @@ class BankLogInButton extends Component {
     const income = incomeData.data;
     const plaidObj = { auth, transaction, balance, id, income };
 
-    const userEmail = firebase.auth().currentUser.email;
+    const user = firebase.auth().currentUser;
+    const userEmail = user.email;
 
     const newPlaid = { ...plaidObj, email: userEmail };
 
-    const userRef = await firestore
-      .collection("user")
-      .where("email", "==", userEmail.toString())
-      .get();
-
-    const docRefId = await userRef.docs[0].id;
-
     firestore
       .collection("user")
-      .doc("" + docRefId + "")
+      .doc(user.uid)
       .update(newPlaid);
     const dataAPI = await firestore
       .collection("user")
-      .doc("" + docRefId + "")
+      .doc(user.uid)
       .get()
       .then(user => user.data());
     this.props.getPlaid(dataAPI);
