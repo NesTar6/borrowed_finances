@@ -7,7 +7,7 @@ import { getPlaid, getLoad } from "../../Store/plaidContainer";
 import { connect } from "react-redux";
 import { Loader } from "semantic-ui-react";
 const path =
-  process.env.NODE_ENV === "production" ? "" : "http://localhost:8000";
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3001";
 const firestore = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
@@ -76,7 +76,7 @@ class BankLogInButton extends Component {
         clientName="Warblestein Finances"
         onMessage={this.onMessage}
         publicKey="0cf24d0681bbd05f7b23a59d2afb39"
-        env="sandbox"
+        env="development"
         product={["auth", "transactions"]}
         onLoad={this.onLoad}
         onLoadStart={this.onLoadStart}

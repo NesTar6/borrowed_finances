@@ -27,9 +27,6 @@ class Plaid extends Component {
       case "CONNECTED":
         console.log("connected");
         return this.renderDetails();
-      case "LOGIN_BUTTON":
-      case "EXIT":
-        return this.Login();
       case "LOADING":
         return this.loading()
       default:
@@ -112,10 +109,10 @@ class Plaid extends Component {
     console.log("Plaid.renderLogin", this);
     return (
       <PlaidLink
-        clientName="Fintrack"
+        clientName="Warblestein Finance"
         onMessage={this.onMessage}
-        publicKey="faa176d98c3dd1ab8813a01cc0bc8f"
-        env="sandbox"
+        publicKey="0cf24d0681bbd05f7b23a59d2afb39"
+        env="development"
         product={["auth", "transactions"]}
         onLoad={this.onLoad}
         onLoadStart={this.onLoadStart}

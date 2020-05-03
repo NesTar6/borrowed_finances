@@ -18,7 +18,7 @@ const client = new plaid.Client(
   process.env.PLAID_CLIENT_ID,
   process.env.PLAID_SECRET_KEY,
   process.env.PLAID_PUBLIC_KEY,
-  process.env.NODE_ENV === "production" ? plaid.environments.production : plaid.environments.sandbox
+  process.env.NODE_ENV === "production" ? plaid.environments.production : plaid.environments.development
 );
 
 app.use(volleyball);
@@ -48,13 +48,13 @@ app.post("/auth/get", (req, res, next) => {
   client.getAuth(ACCESS_TOKEN, {}, (err, results) => {
     // Handle err
     var accountData = results.accounts;
-    if (results.numbers.ach.length > 0) {
-      // Handle ACH numbers (US accounts)
-      var achNumbers = results.numbers.ach;
-    } else if (results.numbers.eft.length > 0) {
-      // Handle EFT numbers (Canadian accounts)
-      var eftNumbers = results.numbers.eft;
-    }
+    // if (results.numbers.ach.length > 0) {
+    //   // Handle ACH numbers (US accounts)
+    //   var achNumbers = results.numbers.ach;
+    // } else if (results.numbers.eft.length > 0) {
+    //   // Handle EFT numbers (Canadian accounts)
+    //   var eftNumbers = results.numbers.eft;
+    // }
 
     res.json(accountData);
   });
