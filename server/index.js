@@ -34,6 +34,7 @@ app.post("/get_access_token", async function(request, response, next) {
     error,
     tokenResponse
   ) {
+    console.log("/get_access_token", error, tokenResponse);
     if (error != null) {
       return response.status(500).json(error);
     }
@@ -47,6 +48,7 @@ app.post("/get_access_token", async function(request, response, next) {
 app.post("/auth/get", (req, res, next) => {
   client.getAuth(ACCESS_TOKEN, {}, (err, results) => {
     // Handle err
+    console.log("/auth/get", err, results);
     var accountData = results.accounts;
     // if (results.numbers.ach.length > 0) {
     //   // Handle ACH numbers (US accounts)
@@ -72,6 +74,7 @@ app.post("/transaction/get", (req, res, next) => {
       offset: 0
     },
     (err, result) => {
+      console.log("/transactions/get", err, result);
       // Handle err
       const transactions = result.transactions;
       res.json(transactions);
@@ -81,6 +84,7 @@ app.post("/transaction/get", (req, res, next) => {
 
 app.post("/accounts/balance/get", (req, res, next) => {
   client.getBalance(ACCESS_TOKEN, (err, result) => {
+    console.log("/accounts/balance/get", err, result);
     // Handle err
     // Each account has up-to-date balance information associated with it
     const item = result.accounts;
@@ -92,6 +96,7 @@ app.post("/accounts/balance/get", (req, res, next) => {
 app.post("/identity/get", (req, res, next) => {
   // Retrieve Identity data for an Item
   client.getIdentity(ACCESS_TOKEN, function(err, result) {
+    console.log("/identity/get", err, result);
     // Handle err
     const info = result.info;
     res.json(info);
@@ -100,6 +105,7 @@ app.post("/identity/get", (req, res, next) => {
 
 app.post("/income/get", (req, res, next) => {
   client.getIncome(ACCESS_TOKEN, function(err, result) {
+    console.log("/income/get", err, result);
     // Handle err
     var income = 0;
     if (result) {
