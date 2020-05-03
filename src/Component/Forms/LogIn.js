@@ -48,7 +48,7 @@ class LogIn extends Component {
   async handleSubmit(event) {
     event.preventDefault()
     if(valid(this.state.email,'email') && valid(this.state.password,'password')){
-      await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => auth.logIn(this.state.email, this.state.password));
+      await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => auth.logIn(this.state.email, this.state.password));
       const user = firebase.auth().currentUser;
       console.log(user)
       if (user) {

@@ -32,17 +32,12 @@ export const getUserProfileInfo = () => async dispatch => {
   try {
     
     const user = firebase.auth().currentUser
-    const userEmail = user.email;
-    const userRef = await firestore
-      .collection("user")
-      .where("email", "==", userEmail.toString())
-      .get();
-    const docRefId = await userRef.docs[0].id;
     const dataAPI = await firestore
       .collection("user")
-      .doc("" + docRefId + "")
+      .doc(user.uid)
       .get()
       .then(user => user.data());
+
     const output = { 
       created: user.metadata.creationTime,
       access: user.metadata.lastSignInTime,
@@ -59,22 +54,11 @@ export const changeUserInfo = newInfo => dispatch => {
   try {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        console.log(user)
-        const userEmail = user.email
-        const userRef = await firestore.collection('user').where('email',"==",userEmail.toString()).get()
-        const docRefId = userRef.docs[0].id; 
-        await firestore.collection('user').doc(""+docRefId+"").update({
+        await firestore.collection('user').doc(user.uid).update({
           email: newInfo.email,
           name: newInfo.name
         })
         await user.updateEmail(newInfo.email.toString())
-        const dataAPI = await firestore
-          .collection("user")
-          .doc("" + docRefId + "")
-          .get()
-          .then(user => user.data());
-        console.log(dataAPI)
-        // dispatch(changeUserInfo(dataAPI))
       }
     })
   } catch (error) {

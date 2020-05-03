@@ -84,23 +84,17 @@ class Plaid extends Component {
     const plaidObj = {auth, transaction, balance, id, income}
 
 
-    const userEmail = firebase.auth().currentUser.email
+    const user = firebase.auth().currentUser;
+    const userEmail = user.email;
     
     const newPlaid = {...plaidObj, email: userEmail}
 
-    const userRef = await firestore.collection('user').where('email',"==",userEmail.toString()).get()
-    
-
-    const docRefId = userRef.docs[0].id;
-    
-
-
-    firestore.collection('user').doc(""+docRefId+"").update(newPlaid).then(() => {
-      console.log("Connected")``
+    firestore.collection('user').doc(user.uid).update(newPlaid).then(() => {
+      console.log("Connected to Plaid")
     }).catch(() => {
       console.log("error")
     })
-    const dataAPI = await firestore.collection('user').doc(""+docRefId+"").get().then(user=>user.data())
+    const dataAPI = await firestore.collection('user').doc(user.uid).get().then(user=>user.data())
     console.log("Now persistent")
     
     this.props.getPlaid(dataAPI);

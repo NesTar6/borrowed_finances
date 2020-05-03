@@ -52,16 +52,14 @@ export default class SignUp extends Component {
         console.log(this.state)
         if((valid(this.state.firstName,'firstName') && valid(this.state.lastName,"lastName")) && (valid(this.state.email,"email") && valid(this.state.password,"password") && (this.state.password === this.state.Cpassword))) {
             // if all information are valid
-            await auth.createUser(this.state.email, this.state.password)
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-                auth.logIn(this.state.email, this.state.password)
-                firestore.collection("user").add({
-                    name: this.state.firstName + " " + this.state.lastName,
-                    email: this.state.email
-                })
+            await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+            await auth.createUser(this.state.email, this.state.password);
+            const authUser = firebase.auth().currentUser;
+            const userData = await firestore.collection("user").doc(authUser.uid).set({
+                name: this.state.firstName + " " + this.state.lastName,
+                email: this.state.email
             })
-            const user = firebase.auth().currentUser
-            console.log(user)
+            const user = firebase.auth().currentUser;
             if(user){
                 this.props.history.push('/');
             }else{
@@ -110,9 +108,8 @@ render() {
         <div className="container">
             <div className="row">
             <div className="col-md-4 col-md-offset-4">
-                <form className="well" onSubmit={this.handleSubmit} onChange={this.handleChanger}>
+                <form className="well" onSubmit={this.handleSubmit}>
                 <h3 className='center'>Sign up</h3>
-
                     <div className="form-group">
                         <label>First Name</label>
                         {this.state.firstName.length > 0 ? valid(this.state.firstName,"firstName") ? null : <p className='error'>Enter a valid first name </p> : null }
@@ -120,6 +117,7 @@ render() {
                         placeholder="First Name"
                         name="firstName"
                         value={this.state.firstName} 
+                        onChange={this.handleChanger}
                         />
                     </div>
                     
@@ -130,6 +128,7 @@ render() {
                         placeholder="Last Name"
                         name="lastName"
                         value={this.state.lastName} 
+                        onChange={this.handleChanger}
                         />
                     </div>
 
@@ -141,6 +140,7 @@ render() {
                         placeholder="E-mail address"
                         name="email"
                         value={this.state.email} 
+                        onChange={this.handleChanger}
                         />
                     </div>
 
@@ -153,6 +153,7 @@ render() {
                         type="password"
                         name="password"
                         value={this.state.password}
+                        onChange={this.handleChanger}
                         />
                     </div>
 
@@ -166,6 +167,7 @@ render() {
                         type="password"
                         name="Cpassword"
                         value={this.state.Cpassword}
+                        onChange={this.handleChanger}
                         />
                     </div>
                     <button className="btn btn-default btn-block">Sign up </button>

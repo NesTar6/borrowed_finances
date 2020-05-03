@@ -5,6 +5,7 @@
 3. Update the `FIREBASE_*` environment variables in .env and `./src/`
 4. Run `firebase init` in project root
 5. Enable `Email/Password` authentication method in Firebase project console
+6. `firebase deploy --only firestore:rules`
 
 ## Troubleshooting: 
 

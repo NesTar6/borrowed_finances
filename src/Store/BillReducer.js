@@ -229,7 +229,7 @@ export const editSingleBill = (updatedBill, billID) => async dispatch => {
                 newBills.push(bills[i])
             }
         }
-        await firestore.collection('user').doc(docRefId.toString()).update({
+        await firestore.collection('user').doc(user.uid).update({
             Bills: newBills
         })
         dispatch(editted_bill(newBills))

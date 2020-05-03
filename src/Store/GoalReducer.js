@@ -27,7 +27,7 @@ export const addAGoal = (goal) => async dispatch => {
                     .where("email", "==", userEmail.toString())
                     .get();
                 const docRefId = await userRef.docs[0].id;
-                const addingGoals = await db.collection('user').doc(docRefId.toString()).update({
+                const addingGoals = await db.collection('user').doc(user.uid).update({
                     Goals: firebase.firestore.FieldValue.arrayUnion(goal)
                 })
                 dispatch(addingAGoalToReducer(goal))
@@ -85,7 +85,7 @@ export const editSingleGoal = (edittedGoal, goalId) => async dispatch => {
                 newGoals.push(goals[i])
             }
         }
-        await db.collection('user').doc("" + docRefId + "").update({
+        await db.collection('user').doc(user.uid).update({
             Goals: newGoals
         })
         dispatch(editGoal(newGoals))
@@ -100,7 +100,7 @@ export const getAllGoal = () => async dispatch => {
             if (user) {
                 // console.log('USER', user)
                 const userEmail = user.email
-                const goals = await db.collection('user').where("email", "==", userEmail.toString()).get().then(snapshot => {
+                const goals = await db.collection('user').doc(user.uid).get().then(snapshot => {
                     snapshot.docs.map(doc => dispatch(gotAllGoal(doc.data().Goals))
                     )
                 })
@@ -129,7 +129,7 @@ export const destroyingGoal = (dataId) => async dispatch => {
         var newGoals = goals.filter((goal, index) => {
             return (index != dataId)
         })
-        await db.collection("user").doc("" + docRefId + "").update({Goals: newGoals}).then(() => {
+        await db.collection("user").doc(user.uid).update({Goals: newGoals}).then(() => {
             "array updated"
         }).catch(error => console.error(error))
         
