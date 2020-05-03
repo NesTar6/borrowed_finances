@@ -58,7 +58,7 @@ class LogIn extends Component {
         this.props.alert.error('Invalid login credentials!')
         this.props.history.push("/login");
       }
-    }else {
+    } else {
       this.setState({
         error : true
       })

@@ -76,7 +76,7 @@ class BankLogInButton extends Component {
         clientName="Warblestein Finances"
         onMessage={this.onMessage}
         publicKey="0cf24d0681bbd05f7b23a59d2afb39"
-        env="development"
+        env="sandbox"
         product={["auth", "transactions"]}
         onLoad={this.onLoad}
         onLoadStart={this.onLoadStart}

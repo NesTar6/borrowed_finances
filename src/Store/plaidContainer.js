@@ -65,17 +65,18 @@ export const getDataFromFireStore = () => async dispatch => {
       const month = currentDate.getMonth() + 1;
       const year = currentDate.getFullYear();
       if (dataAPI.transaction) {
-        const transMonth = await dataAPI.transaction.filter(transaction => {
-          if (
-            transaction.date.substring(0, 4) == year &&
-            transaction.date.substring(5, 7) == month
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        });
+        // const transMonth = await dataAPI.transaction.filter(transaction => {
+        //   if (
+        //     transaction.date.substring(0, 4) == year &&
+        //     transaction.date.substring(5, 7) == month
+        //   ) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // });
 
+        const transMonth = dataAPI.transaction;
         const budget = dataAPI.budget;
         const income = dataAPI.income.income_streams[0].monthly_income;
         dataAPI.action = { transMonth, monthlyIncome: income, budget: budget };
